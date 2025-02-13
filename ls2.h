@@ -8,10 +8,12 @@
 #define INDENT "    "
 
 // TODO: Any global variables go below
-int thisIsGlobal = 10;  // delete before submission
+//int thisIsGlobal1 = 10;  // delete before submission
 
-// TODO: Function declarations go below
-void example(int*); // delete before submission
-
+void indent(int); // indents n times based on input
+void printFullDir(char*); // calls recursivePrintFullDir with depth 0
+void recursivePrintFullDir(char*, int); // recursively prints all files in directory
+void printMatchingFiles(char*, char*);
+int recursivePrintMatchingFiles(char*, int, char*, stack_t*);
 
 #endif
