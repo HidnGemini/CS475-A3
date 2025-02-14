@@ -8,8 +8,10 @@
 
 
 /** 
- * 
+ * indent(n) prints an indent n times. It is only used
+ * as a helper for recursivePrintFullDir.
  *
+ * @param times is the number of times to indent
  */
 void indent(int times) {
     for (int i = 0; i < times; i++) {
@@ -17,13 +19,27 @@ void indent(int times) {
     } 
 }
 
+/** 
+ * printFullDir(PATH) calls the recursive function 
+ * recursivePrintFullDir(PATH, 0). This function exists
+ * purely to make the inputs more intuitive.
+ *
+ * @param inputPath is a string of the path to print 
+ * the contents of
+ */
 void printFullDir(char* inputPath) {
     recursivePrintFullDir(inputPath, 0);
 }
 
 /** 
- * 
+ * recursivePrintDir(PATH, depth) traverses the given PATH,
+ * printing every file and its size, and recursing on any
+ * directories.
  *
+ * @param inputPath is a string of the path to print
+ * the contents of
+ * @param numIndents is an int representing how deep
+ * into recursion we are
  */
 void recursivePrintFullDir(char* inputPath, int numIndents) {
     // allocate things we will need later
@@ -69,8 +85,15 @@ void recursivePrintFullDir(char* inputPath, int numIndents) {
 }
 
 /** 
+ * printMatchingFiles creates a stack, calls recursive
+ * version of the function, and prints the stack. This
+ * function only exists to simplify the calling of
+ * recursivePrintMatchingFiles.
  * 
- *
+ * @param inputPath is a string of the path to print
+ * the contents of
+ * @param toMatch is the string name of a file to 
+ * search for
  */
 void printMatchingFiles(char* inputPath, char* toMatch) {
     stack_t *printStack = initstack();
@@ -80,8 +103,19 @@ void printMatchingFiles(char* inputPath, char* toMatch) {
 }
 
 /** 
- * 
+ * recursivePrintMatchingFiles(PATH, FILENAME) traverses
+ * the given PATH, printing all folders that contain a 
+ * file named FILENAME and the files. It is not supposed 
+ * to be called without the help of printMatchingFiles.
  *
+ * @param inputPath is a string of the path to print
+ * the contents of
+ * @param numIndents is an int representing how deep
+ * into recursion we are
+ * @param toMatch is the string name of a file to 
+ * search for
+ * @param stack is a stack that will contain string
+ * representations of all matching files.
  */
 int recursivePrintMatchingFiles(char* inputPath, int numIndents, char* toMatch, stack_t* stack) {
     int wasFileFound = 0; // initialize as not found
@@ -110,20 +144,18 @@ int recursivePrintMatchingFiles(char* inputPath, int numIndents, char* toMatch, 
                 statBuf = malloc(sizeof(struct stat));
                 stat(path, statBuf);
 
-                // set up path for pushing to stack
-
                 if (S_ISDIR(statBuf->st_mode)) {
                     wasFileFound = recursivePrintMatchingFiles(path, numIndents+1, toMatch, stack);
 
                     if (wasFileFound) {
                         // setup path for pushing to stack
-                        char *stringForStack = (char*) malloc(sizeof(directory->d_name) + 4*sizeof(INDENT) + 13);
+                        char *stringForStack = (char*) malloc(sizeof(directory->d_name) + 4*sizeof(INDENT) + 14);
                         stringForStack[0] = '\0';
                         for (int i = 0; i<numIndents; i++) {
                             strcat(stringForStack, INDENT);
                         }
                         strcat(stringForStack, directory->d_name);
-                        strcat(stringForStack, " (directory)");
+                        strcat(stringForStack, "/ (directory)");
 
                         // push string to stack
                         push(stack, stringForStack);

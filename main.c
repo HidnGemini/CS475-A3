@@ -22,19 +22,5 @@ int main(int argc, char* argv[]) {
 	} else {
 		printf("Usage: ./ls2 <path> [exact-match-pattern]\n");
 	}
-
-	// // stack stores the lines to print out
-	// stack_t *s = initstack();
-
-	// push(s, "Hello1");
-	// push(s, "Hello2");
-	// push(s, "Hello3");
-
-	// print stack
-	// printf("Printing stack now!\n");
-	// printstack(s);
-
-	// // free up stack
-	// freestack(s);
 	return 0;
 }
